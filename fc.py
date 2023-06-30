@@ -42,6 +42,11 @@ class FullConnectedLayer(object):
         '''
         反向计算W和b的梯度
         delta_array: 从上一层传递过来的误差项
+
+        假设你的代码中建立一个Network([5,4,1])，代表第一全连接层输入5、输出4，第二个全连接层，输入4、输出1，
+        而我们一般可能认为他所写的FullConnectedLayer是表示3层，其实不然。
+        所以当进入最后一层算delta时，其实不是在算输出层的delta（即只有一个节点的那一层），而是进入了一个由输入4、输出1组成的全连接层，
+        用self.input就相当于他理论中介绍的隐藏层的那个delta。
         '''
         # 式8
         self.delta = self.activator.backward(self.input) * np.dot(
