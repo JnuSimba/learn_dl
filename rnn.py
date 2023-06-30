@@ -60,10 +60,11 @@ class RecurrentLayer(object):
     def calc_delta_k(self, k, activator):
         '''
         根据k+1时刻的delta计算k时刻的delta
+        state 应取self.state_list[k].copy()，而非k+1元素。
+        state变量取出后，应当放在element_wise_op方法中进行逐元素的activator.backward操作。
         '''
-        state = self.state_list[k+1].copy()
-        element_wise_op(self.state_list[k+1],
-                    activator.backward)
+        state = self.state_list[k].copy()
+        element_wise_op(state, activator.backward)
         self.delta_list[k] = np.dot(
             np.dot(self.delta_list[k+1].T, self.W),
             np.diag(state[:,0])).T
