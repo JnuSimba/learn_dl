@@ -66,7 +66,7 @@ class RecurrentLayer(object):
         state = self.state_list[k].copy()
         element_wise_op(state, activator.backward)
         self.delta_list[k] = np.dot(
-            np.dot(self.delta_list[k+1].T, self.W),
+            np.dot(self.delta_list[k+1].T, self.U),
             np.diag(state[:,0])).T
 
     def calc_gradient(self):
